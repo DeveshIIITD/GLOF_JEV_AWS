@@ -1,0 +1,18 @@
+version: 1
+frontend:
+  phases:
+    build:
+      commands:
+        - mkdir -p dist
+        - cp index.html schematic.html styles.css schematic.css app.js schematic.js config.js dist/
+        - cp -R assets dist/
+        - |
+          if [ -n "${GLOF_API_URL:-}" ]; then
+            node -e 'require("fs").writeFileSync("dist/config.js", "window.GLOF_API_URL = " + JSON.stringify(process.env.GLOF_API_URL) + ";\n")'
+          fi
+  artifacts:
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths: []

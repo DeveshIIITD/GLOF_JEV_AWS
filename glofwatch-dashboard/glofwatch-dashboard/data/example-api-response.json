@@ -1,0 +1,21 @@
+{
+  "lakes": [
+    {
+      "lake_id": "EXAMPLE-01",
+      "name": "Example Research Lake",
+      "region": "Demo study area",
+      "lat": 28.1,
+      "lon": 85.2,
+      "level": "watch",
+      "score": 51,
+      "area_km2": 0.75,
+      "area_change_pct": 1.7,
+      "assessed_at": "2026-10-08T08:00:00Z",
+      "history": [
+        {"date": "2026-10-06", "area_km2": 0.73},
+        {"date": "2026-10-07", "area_km2": 0.74},
+        {"date": "2026-10-08", "area_km2": 0.75}
+      ]
+    }
+  ]
+}

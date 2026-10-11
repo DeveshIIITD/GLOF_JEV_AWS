@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f6f8fa" />
+  <meta name="description" content="GLOFWatch: glacial lake observation and risk indicator dashboard." />
+  <title>Schematic · GLOFWatch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./schematic.css" />
+  <script defer src="./schematic.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+      <div class="brand-block">
+        <div class="brand-icon"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="m4 28 10-17 7 11 4-6 8 12H4Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="m11 17 4 5 4-4M21 22l4 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div><div class="brand-name">GLOF<span>Watch</span></div><div class="brand-sub">EARTH INTELLIGENCE</div></div>
+      </div>
+      <div class="side-label">MAIN</div>
+      <nav class="side-nav">
+        <a class="nav-link" href="./index.html"><span data-icon="layout"></span><span>Overview</span></a>
+        <a class="nav-link" href="./index.html#lake-section"><span data-icon="map"></span><span>Lake explorer</span></a>
+        <a class="nav-link" href="./index.html#trend-section"><span data-icon="chart"></span><span>Trend analysis</span></a>
+        <a class="nav-link" href="./index.html#system-section"><span data-icon="activity"></span><span>Data & system</span></a>
+        <a class="nav-link active" href="./schematic.html" aria-current="page"><span data-icon="layers"></span><span>Schematic</span></a>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <div class="side-help">
+        <span class="side-help-icon" data-icon="shield"></span>
+        <strong>Research prototype</strong>
+        <p>For exploration only. Not an official flood-warning service.</p>
+      </div>
+      <div class="sidebar-footer"><div class="user-avatar">GW</div><div><strong>GLOFWatch</strong><span>Cloud monitoring</span></div><span class="online-dot" title="UI ready"></span></div>
+    </aside>
+
+    <div class="main-wrap">
+      <header class="topbar">
+        <div class="topbar-left"><button id="menu-button" class="icon-button menu-button" type="button" aria-label="Toggle navigation"><span data-icon="menu"></span></button><span class="crumb-muted">Workspace</span><span class="crumb-sep">/</span><span id="breadcrumb">Schematic</span></div>
+        <div class="topbar-actions"><span class="topbar-date" id="today-label"></span><span class="header-divider"></span><span class="avatar-mini">GW</span></div>
+      </header>
+
+      <main class="content schematic-content" id="schematic">
+        <div class="page-heading">
+          <div class="heading-main"><div class="eyebrow"><span class="eyebrow-bar"></span> SYSTEM ARCHITECTURE</div><h1>From observation <span>to decision</span></h1><p>The GLOFWatch workflow, one stage at a time.</p></div>
+          <div class="heading-actions"><button class="button button-light" id="animation-toggle" type="button" aria-pressed="true">Play GIFs</button><a class="button button-dark" href="./index.html" style="text-decoration:none"><span data-icon="arrow-left"></span> Dashboard</a></div>
+        </div>
+        <div class="notice"><span data-icon="info"></span><span>Proposed research architecture. GIFs illustrate processing; they do not show live activity. JEV, sensors and alert delivery require separate integration.</span><span class="notice-tag">DESIGN VIEW</span></div>
+        <figure class="architecture" aria-labelledby="architecture-title" style="margin:0">
+          <div class="board-title"><h2 id="architecture-title">GLOFWatch's <span>early warning workflow</span></h2><span class="board-tag">ILLUSTRATED SCHEMATIC</span></div>
+          <section class="flow-section" aria-labelledby="input-title"><div class="section-caption" id="input-title">DATA STREAMS &amp; INGESTION</div><div class="source-grid"><article class="sketch-card source-card"><img class="motion-icon" src="./assets/schematic/satellite.png" data-motion="satellite" width="128" height="128" alt="" /><div><h3>Satellite imagery</h3><p>Sentinel / other imagery → lake extent and surface change.</p></div></article><article class="sketch-card source-card"><img class="motion-icon" src="./assets/schematic/sensor.png" data-motion="sensor" width="128" height="128" alt="" /><div><h3>Seismic &amp; water sensors</h3><p>Optional station feeds → seismic activity and lake level.</p></div></article><article class="sketch-card source-card"><img class="motion-icon" src="./assets/schematic/weather.png" data-motion="weather" width="128" height="128" alt="" /><div><h3>Weather observations</h3><p>Rainfall and temperature → conditions around each lake.</p></div></article></div></section>
+          <div class="flow-bridge">Validate · align timestamps · retain provenance</div>
+          <section class="flow-section" aria-labelledby="engine-title"><div class="section-caption" id="engine-title">ASSESSMENT PIPELINE · FOLLOW 01 → 04</div><div class="pipeline"><article class="sketch-card stage-card "><div class="stage-top"><span class="step-number">01</span><img class="motion-icon" src="./assets/schematic/aggregate.png" data-motion="aggregate" width="128" height="128" alt="" /></div><h3>Build the state</h3><p>Combine each lake’s observations into structured JSON. Track timestamps, sources and missing inputs.</p><div class="stage-note">S3: raw inputs &amp; state snapshots</div></article><article class="sketch-card stage-card "><div class="stage-top"><span class="step-number">02</span><img class="motion-icon" src="./assets/schematic/segment.png" data-motion="segment" width="128" height="128" alt="" /></div><h3>Segment &amp; assess</h3><p>DeepLabV3+ estimates lake masks and area change. Risk features feed a separately validated assessment model.</p><div class="stage-note">Colab: inference → JSON export</div></article><article class="sketch-card stage-card model-card"><div class="stage-top"><span class="step-number">03</span><img class="motion-icon" src="./assets/schematic/judge.png" data-motion="judge" width="128" height="128" alt="" /></div><h3>JEV / Qwen judge</h3><p>Optional model evaluates Boolean, severity and category queries. Save structured outputs for review.</p><div class="stage-note">Planned: local Qwen or JEV integration</div></article><article class="sketch-card stage-card "><div class="stage-top"><span class="step-number">04</span><img class="motion-icon" src="./assets/schematic/routing.png" data-motion="routing" width="128" height="128" alt="" /></div><h3>Validate &amp; route</h3><p>Check schema, data freshness and uncertainty. Apply reviewed thresholds; send uncertain results to experts.</p><div class="stage-note">Calibrate with held-out event data</div></article></div></section><div class="flow-bridge">Assessment + quality checks → decision routing</div>
+          <section class="flow-section" aria-labelledby="route-title"><div class="section-caption" id="route-title">DECISION ROUTING · THREE POSSIBLE OUTCOMES</div><div class="routing-grid"><article class="sketch-card route-card low"><img class="motion-icon" src="./assets/schematic/monitor.png" data-motion="monitor" width="128" height="128" alt="" /><div><div class="route-label">LOW INDICATORS · SUFFICIENT DATA</div><h3>Continue monitoring</h3><p>Refresh observations and retain history for the next assessment.</p></div></article><article class="sketch-card route-card review"><img class="motion-icon" src="./assets/schematic/review.png" data-motion="review" width="128" height="128" alt="" /><div><div class="route-label">UNCERTAINTY · MISSING OR STALE DATA</div><h3>Human review</h3><p>Ask domain experts to inspect evidence, model output and anomalies.</p></div></article><article class="sketch-card route-card high"><img class="motion-icon" src="./assets/schematic/alert.png" data-motion="alert" width="128" height="128" alt="" /><div><div class="route-label">HIGH INDICATORS · REVIEWED EVIDENCE</div><h3>Escalate for action</h3><p>Notify approved reviewers. Community alerts require an operational process.</p></div></article></div></section>
+          <section class="cloud-layer" aria-labelledby="cloud-title"><div class="cloud-heading"><img class="motion-icon" src="./assets/schematic/cloud.png" data-motion="cloud" width="128" height="128" alt="" /><h2 id="cloud-title">The AWS layer supporting the workflow</h2></div><div class="cloud-grid">
+            <div class="cloud-item"><h3>Store &amp; serve</h3><p>S3 stores results. Lambda reads latest JSON. API Gateway exposes /lakes/latest.</p></div>
+            <div class="cloud-item"><h3>Display &amp; notify</h3><p>Amplify hosts this dashboard. SNS is an optional future reviewer-notification channel.</p></div>
+            <div class="cloud-item"><h3>Govern &amp; observe</h3><p>Scoped IAM permissions, CloudWatch logs and retained model / data versions.</p></div>
+          </div></section>
+          <figcaption class="architecture-caption"><span>Feedback loop: expert-reviewed outcomes → dataset updates → model evaluation.</span><span>Illustrative architecture · no operational warnings</span></figcaption>
+        </figure>
+        <footer class="footer"><div><span data-icon="activity"></span><strong>GLOFWatch</strong><span class="footer-muted"> · Research system design</span></div><span>Animated GIFs bundled locally · pause anytime</span></footer>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

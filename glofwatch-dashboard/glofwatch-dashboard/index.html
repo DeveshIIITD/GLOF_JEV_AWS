@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f6f8fa" />
+  <meta name="description" content="GLOFWatch: glacial lake observation and risk indicator dashboard." />
+  <title>GLOFWatch · Himalayan GLOF Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <!-- Public API endpoint only; never place AWS credentials in browser code. -->
+  <script src="./config.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+      <div class="brand-block">
+        <div class="brand-icon"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="m4 28 10-17 7 11 4-6 8 12H4Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="m11 17 4 5 4-4M21 22l4 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <div><div class="brand-name">GLOF<span>Watch</span></div><div class="brand-sub">EARTH INTELLIGENCE</div></div>
+      </div>
+      <div class="side-label">MAIN</div>
+      <nav class="side-nav">
+        <button class="nav-link active" type="button" data-target="overview"><span data-icon="layout"></span><span>Overview</span></button>
+        <button class="nav-link" type="button" data-target="lake-section"><span data-icon="map"></span><span>Lake explorer</span></button>
+        <button class="nav-link" type="button" data-target="trend-section"><span data-icon="chart"></span><span>Trend analysis</span></button>
+        <button class="nav-link" type="button" data-target="system-section"><span data-icon="activity"></span><span>Data & system</span></button>
+        <a class="nav-link" href="./schematic.html"><span data-icon="layers"></span><span>Schematic</span></a>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <div class="side-help">
+        <span class="side-help-icon" data-icon="shield"></span>
+        <strong>Research prototype</strong>
+        <p>For exploration only. Not an official flood-warning service.</p>
+      </div>
+      <div class="sidebar-footer"><div class="user-avatar">GW</div><div><strong>GLOFWatch</strong><span>Cloud monitoring</span></div><span class="online-dot" title="UI ready"></span></div>
+    </aside>
+
+    <div class="main-wrap">
+      <header class="topbar">
+        <div class="topbar-left"><button id="menu-button" class="icon-button menu-button" type="button" aria-label="Toggle navigation"><span data-icon="menu"></span></button><span class="crumb-muted">Workspace</span><span class="crumb-sep">/</span><span id="breadcrumb">Overview</span></div>
+        <div class="topbar-actions"><span class="topbar-date" id="today-label"></span><span class="header-divider"></span><span class="avatar-mini">GW</span></div>
+      </header>
+
+      <main class="content" id="overview">
+        <div class="page-heading">
+          <div class="heading-main"><div class="eyebrow"><span class="eyebrow-bar"></span> HIMALAYAN MONITORING NETWORK</div><h1>Himalayan <span>GLOF Monitor</span></h1><p>From satellite observations to actionable research insights.</p></div>
+          <div class="heading-actions"><button class="button button-light" id="refresh-button" type="button"><span data-icon="refresh"></span> Refresh</button><button class="button button-dark" id="export-button" type="button"><span data-icon="download"></span> Export CSV</button></div>
+        </div>
+
+        <div class="notice" id="mode-notice" role="status"><span data-icon="info"></span><span id="mode-message">Demonstration mode — all displayed lake observations and risk scores are simulated.</span><span class="notice-tag" id="mode-tag">DEMO DATA</span></div>
+
+        <section class="kpi-grid" aria-label="Key monitoring metrics">
+          <article class="kpi-card"><div class="kpi-header"><span>Total monitored lakes</span><span class="kpi-icon aqua" data-icon="waves"></span></div><div class="kpi-num" id="metric-total">12</div><div class="kpi-foot"><span class="micro-dot teal"></span><span id="metric-coverage">Across Himalayan study areas</span></div></article>
+          <article class="kpi-card"><div class="kpi-header"><span>Flagged for review</span><span class="kpi-icon amber" data-icon="alert"></span></div><div class="kpi-num" id="metric-flagged">3</div><div class="kpi-foot"><span class="micro-dot orange"></span><span>High-priority research flags</span></div></article>
+          <article class="kpi-card"><div class="kpi-header"><span>Observed lake area</span><span class="kpi-icon indigo" data-icon="layers"></span></div><div class="kpi-num" id="metric-area">8.42 <small>km²</small></div><div class="kpi-foot"><span class="micro-dot indigo-dot"></span><span>Sum of available lake estimates</span></div></article>
+          <article class="kpi-card"><div class="kpi-header"><span>Latest observation</span><span class="kpi-icon violet" data-icon="clock"></span></div><div class="kpi-num time-stat" id="metric-updated">—</div><div class="kpi-foot"><span class="micro-dot purple"></span><span id="metric-update-foot">Most recent sample timestamp</span></div></article>
+        </section>
+
+        <section class="upper-grid" id="lake-section">
+          <article class="panel map-panel">
+            <div class="panel-header"><div><h2>Lake distribution</h2><p>Geospatial view of monitored observations</p></div><div class="panel-right"><span class="panel-chip"><span class="live-ring"></span><span id="map-count">12 lakes</span></span></div></div>
+            <div class="map-view-toolbar">
+              <div class="map-view-toggle" role="group" aria-label="Map view">
+                <button type="button" data-map-view="regular" aria-pressed="true" disabled>Regular</button>
+                <button type="button" data-map-view="satellite" aria-pressed="false" disabled>Satellite</button>
+              </div>
+              <span id="map-view-status" role="status">Loading interactive map…</span>
+            </div>
+            <div class="map-canvas" id="map-canvas" role="region" aria-label="Map of sample Himalayan lake positions">
+              <div class="map-fallback" id="map-fallback" aria-label="Schematic geographic overview"><svg viewBox="0 0 900 430" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs><linearGradient id="terrain" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e2e9e2"/><stop offset=".6" stop-color="#cbd9d0"/><stop offset="1" stop-color="#aebfc0"/></linearGradient><pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#809c97" stroke-opacity=".13"/></pattern></defs>
+                <rect width="900" height="430" fill="url(#terrain)"/><rect width="900" height="430" fill="url(#grid)"/>
+                <path d="M-80 20Q100 130 210 66T480 78T800 62T1000-10L1000 110Q810 180 640 128T290 170T-80 115Z" fill="#eef4ed" opacity=".85"/>
+                <path d="M-80 100Q100 195 245 115T470 136T780 125T1010 55L1000 215Q830 260 620 219T300 250T-80 206Z" fill="#d7e3dd"/>
+                <path d="M-80 202Q110 288 270 192T540 220T825 198T1010 131L1000 335Q825 319 635 288T310 346T-80 306Z" fill="#b9cfc4"/>
+                <path d="M-80 300Q160 365 310 270T600 307T1010 236L1010 460H-80Z" fill="#9cbeb4" opacity=".65"/>
+                <g fill="none" stroke="#7caaa5" stroke-opacity=".5" stroke-width="1.8"><path d="M-80 160Q135 259 265 169T541 193T1010 94"/><path d="M-80 191Q132 292 285 203T540 224T1010 136"/><path d="M-80 237Q134 329 292 238T557 258T1010 175"/><path d="M-80 278Q150 361 322 270T590 292T1010 215"/><path d="M-80 337Q139 396 343 306T598 335T1010 263"/></g>
+                <g fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2.5"><path d="M60 110 110 80 142 92 185 55 250 103 293 68 352 111 406 60 470 108 523 81 588 118 633 89 714 121 772 86 828 118"/></g>
+                <path d="M-30 388Q160 356 250 377T500 347T750 379T940 347" fill="none" stroke="#7ba9bd" stroke-width="3" stroke-opacity=".5"/>
+                <text x="445" y="160" font-size="30" font-family="sans-serif" font-weight="700" fill="#48736d" opacity=".28" transform="rotate(-7 445 160)">HIMALAYAN RANGE</text>
+                <text x="70" y="354" font-size="13" font-family="sans-serif" fill="#537c71">Western Himalaya</text><text x="650" y="335" font-size="13" font-family="sans-serif" fill="#537c71">Eastern Himalaya</text>
+              </svg><div class="fallback-pins" id="fallback-pins"></div><span class="schematic-label">SCHEMATIC BACKUP VIEW</span></div>
+              <div class="map-overlay-top"><span data-icon="map-pin"></span> Himalaya · demo locations</div>
+              <div class="map-controls"><button type="button" id="zoom-in" aria-label="Zoom in">+</button><button type="button" id="zoom-out" aria-label="Zoom out">−</button></div>
+              <div class="map-legend"><span><i class="legend-dot high"></i> High</span><span><i class="legend-dot watch"></i> Watch</span><span><i class="legend-dot low"></i> Low</span></div>
+            </div>
+            <div class="map-bottom"><span><span data-icon="info"></span> Demo map markers are not verified lake coordinates.</span><button type="button" class="text-action" id="show-all-map">View all <span data-icon="arrow-right"></span></button></div>
+          </article>
+
+          <article class="panel watch-panel">
+            <div class="panel-header"><div><h2>Priority watchlist</h2><p>Highest available risk indicators</p></div><span class="subtle-icon" data-icon="arrow-up-right"></span></div>
+            <div class="watch-list" id="watch-list"></div>
+            <div class="watch-footer"><span data-icon="shield"></span> Research flags, not emergency alerts.</div>
+          </article>
+        </section>
+
+        <section class="lower-grid" id="trend-section">
+          <article class="panel chart-panel"><div class="panel-header chart-title-row"><div><h2>Lake surface area trend</h2><p id="chart-subtitle">Select a lake to explore its observed history</p></div><div class="range-controls" role="group" aria-label="Chart time range"><button data-days="7" type="button">7D</button><button class="selected" data-days="30" type="button">30D</button><button data-days="90" type="button">90D</button></div></div>
+            <div class="chart-topline"><div class="chart-reading" id="chart-reading">— <span>km²</span></div><div class="chart-delta" id="chart-delta">—</div></div>
+            <div class="chart-wrap"><svg id="trend-chart" viewBox="0 0 720 235" preserveAspectRatio="none" role="img" aria-label="Lake surface area over selected time period"></svg><div class="chart-tooltip" id="chart-tooltip" hidden></div><div class="empty-chart" id="chart-empty" hidden>Time-series data is not available for this observation.</div></div>
+            <div class="chart-bottom"><div class="chart-series-label"><i></i> Surface area (km²)</div><span id="chart-caption">Illustrative trend data</span></div>
+          </article>
+          <article class="panel details-panel"><div class="panel-header"><div><h2>Observation details</h2><p>Selected lake assessment</p></div><span class="details-accent" data-icon="scan"></span></div>
+            <div class="selected-lake-top"><div><div class="selected-kicker">CURRENT SELECTION</div><h3 id="selected-name">Demo Lake H-01</h3><p id="selected-location">Eastern Nepal · demo</p></div><span id="selected-status" class="risk-pill high">High</span></div>
+            <div class="segmentation-illustration"><svg viewBox="0 0 520 175" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-label="Concept illustration of lake segmentation"><defs><linearGradient id="mt-bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#425b67"/><stop offset="1" stop-color="#152e40"/></linearGradient><linearGradient id="water-gradient" x1="0" x2="1"><stop stop-color="#34d1d0"/><stop offset="1" stop-color="#137a93"/></linearGradient></defs><rect width="520" height="175" fill="url(#mt-bg)"/><path d="M0 100 65 50 100 76 158 23 206 68 255 40 310 88 360 22 425 78 475 47 520 83V175H0Z" fill="#72898c"/><path d="M0 127 83 80 140 113 216 56 290 105 366 51 430 113 520 70V175H0Z" fill="#344e59"/><path d="M158 23 171 41 157 36 147 48 136 51M360 22l12 23-13-10-19 19M216 56l11 16-15-5-11 15" fill="#e3edf0"/><path d="M94 136Q132 104 177 114T274 115Q329 94 380 124T440 152Q406 174 326 169T205 170Q142 171 94 136Z" fill="url(#water-gradient)" stroke="#73f0ea" stroke-width="3"/><path d="M130 137Q205 113 281 134T411 147" stroke="#d0fff7" opacity=".4" stroke-width="2" fill="none"/><rect x="12" y="12" width="118" height="24" rx="7" fill="#0a2532" opacity=".8"/><text x="71" y="28" font-size="11" font-weight="700" fill="#f0ffff" text-anchor="middle">SEGMENTATION VIEW</text></svg><span class="illustration-caption">Concept illustration · not satellite evidence</span></div>
+            <div class="details-metrics"><div><span>Lake area</span><strong id="detail-area">—</strong></div><div><span>Risk score</span><strong id="detail-score">—</strong></div><div><span>Area change</span><strong id="detail-change">—</strong></div><div><span>Observed</span><strong id="detail-observed">—</strong></div></div>
+          </article>
+        </section>
+
+        <section class="panel table-panel" id="all-lakes-section"><div class="panel-header table-head"><div><h2>All monitored lakes</h2><p>Explore and select an observation to inspect</p></div><div class="table-actions"><label class="searchbox"><span data-icon="search"></span><input id="lake-search" placeholder="Search lakes or regions" aria-label="Search lakes or regions" /></label><select id="risk-filter" class="filter-select" aria-label="Filter by risk"><option value="all">All risk levels</option><option value="high">High</option><option value="watch">Watch</option><option value="low">Low</option><option value="unknown">Unknown</option></select></div></div>
+          <div class="table-scroll"><table><thead><tr><th>LAKE ID / NAME</th><th>REGION</th><th>AREA</th><th>RISK SCORE</th><th>STATUS</th><th>OBSERVED</th><th></th></tr></thead><tbody id="lake-table-body"></tbody></table></div><div class="table-footer"><span id="table-count">Showing 12 lakes</span><span>Select a row to view its trend and details</span></div>
+        </section>
+
+        <footer class="footer" id="system-section"><div><span data-icon="activity"></span><strong>GLOFWatch</strong> <span class="footer-muted">· Research monitoring dashboard</span></div><span id="footer-source">Source: simulated demonstration dataset</span></footer>
+      </main>
+    </div>
+  </div>
+  <div class="toast" role="status" aria-live="polite" id="toast"></div>
+</body>
+</html>
